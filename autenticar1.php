@@ -4,9 +4,7 @@
     $bd = ["Matheus" => "12345", "Mayara" => "54321"];
     $usr1 = $_POST['usr1'];
     $pass1 = $_POST['pass1'];
-    $usr2 = $_POST['usr2'];
-    $pass2 = $_POST['pass2'];
-    $users = [ $usr1 => $pass1, $usr2 => $pass2 ];
+    $users = [ $usr1 => $pass1 ];
 
     autenticar($bd, $users);
 
@@ -25,7 +23,7 @@
         }else{
             session_destroy();
             echo "Revise suas credenciais de login!";
-            header("refresh: 4; URL=index.html");
+            header("refresh: 4; URL=autenticar1.html");
         }
     }
 ?>

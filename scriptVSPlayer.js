@@ -1,5 +1,5 @@
 var vez = 0;
-var ganhdor = '';
+var ganhador = '';
 
 var casa = document.getElementsByClassName("casa");
 Array.from(casa).forEach(function(element){
@@ -22,8 +22,6 @@ function verificaTabuleiro(){
  if(verificaResultado(1,2,3) || verificaResultado(4,5,6) || verificaResultado(7,8,9) || 
     verificaResultado(1,4,7) || verificaResultado(2,5,8) || verificaResultado(3,6,9) || 
     verificaResultado(1,5,9) || verificaResultado(3,5,7)){
-        var vencedor = document.getElementById("ganhador");
-        vencedor.value = ganhador;
         var xhr = new XMLHttpRequest();
         xhr.open("POST","getSession.php",true);
         xhr.send();
@@ -36,6 +34,8 @@ function verificaTabuleiro(){
                     resp = JSON.parse(xhr.responseText);
                     var nomeGanhador = ganhador == 0 ? resp[0] : resp[1];
                     alert("Jogador "+nomeGanhador+" venceu");
+                    var vencedor = document.getElementById("ganhador");
+                    vencedor.value = nomeGanhador;
                     document.form.submit();
                 }   
             }
