@@ -1,4 +1,4 @@
-var vez = 1;
+var vez = 0;
 var ganhdor = '';
 
 var casa = document.getElementsByClassName("casa");
@@ -6,12 +6,12 @@ Array.from(casa).forEach(function(element){
     element.addEventListener("click", function(){
         var simbol = element.innerHTML;
         if(simbol == '' || simbol == null){
-            if(vez == 1){
+            if(vez == 0){
                 element.innerHTML = "O";
-                vez = 2;
+                vez = 1;
             }else{
                 element.innerHTML = "X";
-                vez = 1;
+                vez = 0;
             }
             verificaTabuleiro();
         }
@@ -24,8 +24,23 @@ function verificaTabuleiro(){
     verificaResultado(1,5,9) || verificaResultado(3,5,7)){
         var vencedor = document.getElementById("ganhador");
         vencedor.value = ganhador;
-        alert("Jogador "+ganhador+" venceu");
-        document.form.submit();
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST","getSession.php",true);
+        xhr.send();
+        var resp;
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState < 4)                    
+                console.log('A carregar...');
+            else if (xhr.readyState === 4) {                   
+                if (xhr.status == 200 && xhr.status < 300){
+                    resp = JSON.parse(xhr.responseText);
+                    var nomeGanhador = ganhador == 0 ? resp[0] : resp[1];
+                    alert("Jogador "+nomeGanhador+" venceu");
+                    document.form.submit();
+                }   
+            }
+        }
+        
     }
 }
 
@@ -38,9 +53,9 @@ function verificaResultado(c1, c2, c3){
     var val3 = casa3.innerHTML;
     if((val1 == val2)&&(val1 == val3) && (val1 != '' && val1 != null)){
         if(val1 == "O"){
-            ganhador = 1;
+            ganhador = 0;
         }else{
-            ganhador = 2;
+            ganhador = 1;
         }
         return true;
     }

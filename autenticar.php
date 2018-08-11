@@ -1,5 +1,6 @@
 <?php
     session_start();
+
     $bd = ["Matheus" => "12345", "Mayara" => "54321"];
     $usr1 = $_POST['usr1'];
     $pass1 = $_POST['pass1'];
@@ -14,7 +15,7 @@
         foreach($users as $key => $value){
             foreach($bd as $usr => $pass){
                 if($key == $usr && $value == $pass){
-                    $_SESSION[$aux] = $key;
+                    $_SESSION['usr'.$aux] = $key;
                     $aux++;
                 }
             }
