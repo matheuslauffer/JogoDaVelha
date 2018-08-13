@@ -20,9 +20,7 @@ function vezDaCPU(){
   do{
     var i = 0;
     var casaSorteada = Math.floor(Math.random() * (9 - 1) + 1);
-    console.log(casaSorteada)
     var casa = document.getElementById("casa"+casaSorteada);
-    console.log(casa.innerHTML);
     if(casa.innerHTML == '' || casa.innerHTML == null){
       casa.innerHTML = "X";
       i = 1;
