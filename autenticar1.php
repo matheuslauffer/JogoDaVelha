@@ -18,12 +18,12 @@
                 }
             }
         }
-        if($aux == 2){
-            header("location:velha.html");
+        if($aux == 1){
+            header("location:velhaVSCPU.html");
         }else{
             session_destroy();
             echo "Revise suas credenciais de login!";
-            header("refresh: 4; URL=autenticar1.html");
+            header("refresh: 4; URL=login1.html");
         }
     }
 ?>

@@ -8,15 +8,27 @@ Array.from(casa).forEach(function(element){
         if(simbol == '' || simbol == null){
             if(vez == 0){
                 element.innerHTML = "O";
-                vez = 1;
-            }else{
-                element.innerHTML = "X";
-                vez = 0;
             }
+            verificaTabuleiro();
+            vezDaCPU();
             verificaTabuleiro();
         }
     });
 });
+
+function vezDaCPU(){
+  do{
+    var i = 0;
+    var casaSorteada = Math.floor(Math.random() * (9 - 1) + 1);
+    console.log(casaSorteada)
+    var casa = document.getElementById("casa"+casaSorteada);
+    console.log(casa.innerHTML);
+    if(casa.innerHTML == '' || casa.innerHTML == null){
+      casa.innerHTML = "X";
+      i = 1;
+    }
+  }while(i == 0);
+}
 
 function verificaTabuleiro(){
  if(verificaResultado(1,2,3) || verificaResultado(4,5,6) || verificaResultado(7,8,9) ||
@@ -26,19 +38,23 @@ function verificaTabuleiro(){
         xhr.open("POST","getSession.php",true);
         xhr.send();
         var resp;
-        xhr.onreadystatechange = function(){
-            if (xhr.readyState < 4)
-                console.log('A carregar...');
-            else if (xhr.readyState === 4) {
-                if (xhr.status == 200 && xhr.status < 300){
-                    resp = JSON.parse(xhr.responseText);
-                    var nomeGanhador = ganhador == 0 ? resp[0] : resp[1];
-                    alert("Jogador "+nomeGanhador+" venceu");
-                    var vencedor = document.getElementById("ganhador");
-                    vencedor.value = nomeGanhador;
-                    document.form.submit();
-                }
-            }
+        if(ganhador == 0){
+          xhr.onreadystatechange = function(){
+              if (xhr.readyState < 4)
+                  console.log('A carregar...');
+              else if (xhr.readyState === 4) {
+                  if (xhr.status == 200 && xhr.status < 300){
+                      resp = JSON.parse(xhr.responseText);
+                      var nomeGanhador = ganhador == 0 ? resp[0] : resp[1];
+                      alert("Jogador "+nomeGanhador+" venceu");
+                      var vencedor = document.getElementById("ganhador");
+                      vencedor.value = nomeGanhador;
+                      document.form.submit();
+                  }
+              }
+          }
+        }else {
+          alert("CPU VENCEU!");
         }
     }
 }
