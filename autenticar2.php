@@ -21,7 +21,7 @@
             }
         }
         if($aux == 2){
-            header("location:velha.html");
+            header("location:velhaVSPlayer.html");
         }else{
             session_destroy();
             echo "Revise suas credenciais de login!";

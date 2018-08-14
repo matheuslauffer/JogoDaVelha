@@ -8,10 +8,12 @@ Array.from(casa).forEach(function(element){
         if(simbol == '' || simbol == null){
             if(vez == 0){
                 element.innerHTML = "O";
+                verificaTabuleiro();
             }
-            verificaTabuleiro();
-            vezDaCPU();
-            verificaTabuleiro();
+            if(ganhador == ''){
+              vezDaCPU();
+              verificaTabuleiro();
+            }
         }
     });
 });
@@ -31,7 +33,7 @@ function vezDaCPU(){
 function verificaTabuleiro(){
  if(verificaResultado(1,2,3) || verificaResultado(4,5,6) || verificaResultado(7,8,9) ||
     verificaResultado(1,4,7) || verificaResultado(2,5,8) || verificaResultado(3,6,9) ||
-    verificaResultado(1,5,9) || verificaResultado(3,5,7)){
+    verificaResultado(1,5,9) || verificaResultado(3,5,7) || verificaEmpate()){
         var xhr = new XMLHttpRequest();
         xhr.open("POST","getSession.php",true);
         xhr.send();
@@ -51,8 +53,10 @@ function verificaTabuleiro(){
                   }
               }
           }
-        }else {
+        }else if(ganhador == 1){
           alert("CPU VENCEU!");
+        }else {
+          alert("NINGUÉM VENCEU!");
         }
     }
 }
@@ -73,4 +77,20 @@ function verificaResultado(c1, c2, c3){
         return true;
     }
     return false;
+}
+
+function verificaEmpate(){
+  var casas = document.getElementsByClassName("casa");
+  var casasMarcadas;
+  Array.from(casas).forEach(function(element){
+    if(element.innerHTML != '' && (element.innerHTML == 'X' || element.innerHTML == 'X')){
+      casasMarcadas ++;
+    }
+    if(casasMarcadas == 9){
+      ganhador = 3;
+      return true;
+    }else {
+      return false;
+    }
+  });
 }
