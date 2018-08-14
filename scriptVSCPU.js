@@ -9,10 +9,9 @@ Array.from(casa).forEach(function(element){
             if(vez == 0){
                 element.innerHTML = "O";
                 verificaTabuleiro();
-            }
-            if(ganhador == ''){
-              vezDaCPU();
-              verificaTabuleiro();
+                if(ganhador != ''){
+                  vezDaCPU();
+                }
             }
         }
     });
