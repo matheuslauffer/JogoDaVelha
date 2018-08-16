@@ -1,21 +1,32 @@
 var vez = 0;
 var ganhador = '';
+var jogadas = 0;
 
 var casa = document.getElementsByClassName("casa");
 Array.from(casa).forEach(function(element){
     element.addEventListener("click", function(){
         var simbol = element.innerHTML;
+        jogadas ++;
         if(simbol == '' || simbol == null){
             if(vez == 0){
                 element.innerHTML = "O";
                 verificaTabuleiro();
-                if(ganhador != ''){
+                if(jogadas < 8){
                   vezDaCPU();
+                  jogadas++;
+                  verificaTabuleiro();
                 }
             }
         }
+        verificaJogadas();
     });
 });
+
+function verificaJogadas(){
+    if(ganhador == '' && jogadas == 9){
+        alert("NINGUÉM VENCEU");
+    }
+}
 
 function vezDaCPU(){
   do{
@@ -32,30 +43,30 @@ function vezDaCPU(){
 function verificaTabuleiro(){
  if(verificaResultado(1,2,3) || verificaResultado(4,5,6) || verificaResultado(7,8,9) ||
     verificaResultado(1,4,7) || verificaResultado(2,5,8) || verificaResultado(3,6,9) ||
-    verificaResultado(1,5,9) || verificaResultado(3,5,7) || verificaEmpate()){
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST","getSession.php",true);
-        xhr.send();
-        var resp;
+    verificaResultado(1,5,9) || verificaResultado(3,5,7)){
         if(ganhador == 0){
-          xhr.onreadystatechange = function(){
-              if (xhr.readyState < 4)
-                  console.log('A carregar...');
-              else if (xhr.readyState === 4) {
-                  if (xhr.status == 200 && xhr.status < 300){
-                      resp = JSON.parse(xhr.responseText);
-                      var nomeGanhador = ganhador == 0 ? resp[0] : resp[1];
-                      alert("Jogador "+nomeGanhador+" venceu");
-                      var vencedor = document.getElementById("ganhador");
-                      vencedor.value = nomeGanhador;
-                      document.form.submit();
-                  }
-              }
-          }
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST","getSession.php",true);
+            xhr.send();
+            var resp;
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState < 4)
+                    console.log('A carregar...');
+                else if (xhr.readyState === 4) {
+                    if (xhr.status == 200 && xhr.status < 300){
+                        resp = JSON.parse(xhr.responseText);
+                        var nomeGanhador = ganhador == 0 ? resp[0] : resp[1];
+                        alert("Jogador "+nomeGanhador+" venceu");
+                        var vencedor = document.getElementById("ganhador");
+                        vencedor.value = nomeGanhador;
+                        document.form.submit();
+                    }
+                }
+            }
         }else if(ganhador == 1){
-          alert("CPU VENCEU!");
-        }else {
-          alert("NINGUÉM VENCEU!");
+            alert("CPU VENCEU!");
+        }else if(ganhador == 3){
+            alert("NINGUÉM VENCEU!");
         }
     }
 }
@@ -81,8 +92,10 @@ function verificaResultado(c1, c2, c3){
 function verificaEmpate(){
   var casas = document.getElementsByClassName("casa");
   var casasMarcadas;
+  console.log("entrou");
   Array.from(casas).forEach(function(element){
-    if(element.innerHTML != '' && (element.innerHTML == 'X' || element.innerHTML == 'X')){
+    console.log(element.innerHTML != '');
+    if(element.innerHTML != ''){
       casasMarcadas ++;
     }
     if(casasMarcadas == 9){
@@ -93,3 +106,11 @@ function verificaEmpate(){
     }
   });
 }
+
+var reset = document.getElementById("reiniciar");
+reset.addEventListener("click", function(){
+    var casa = document.getElementsByClassName("casa");
+    Array.from(casa).forEach(function(element){
+        element.innerHTML = "";
+    });
+});

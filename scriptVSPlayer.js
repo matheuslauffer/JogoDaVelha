@@ -15,8 +15,15 @@ Array.from(casa).forEach(function(element){
             }
             verificaTabuleiro();
         }
+        verificaJogadas();
     });
 });
+
+function verificaJogadas(){
+    if(ganhador == '' && jogadas == 9){
+        alert("NINGUÉM VENCEU");
+    }
+}
 
 function verificaTabuleiro(){
  if(verificaResultado(1,2,3) || verificaResultado(4,5,6) || verificaResultado(7,8,9) ||
@@ -60,3 +67,11 @@ function verificaResultado(c1, c2, c3){
     }
     return false;
 }
+
+var reset = document.getElementById("reiniciar");
+reset.addEventListener("click", function(){
+    var casa = document.getElementsByClassName("casa");
+    Array.from(casa).forEach(function(element){
+        element.innerHTML = "";
+    });
+});

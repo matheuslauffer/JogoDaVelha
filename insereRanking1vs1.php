@@ -14,7 +14,7 @@
         $linha = fgets($file, 1024);
         $parametros = explode(":",$linha);
         if($parametros[0] == $vencedor){
-          $vitorias = $parametros[1] + 1;
+          $vitorias = intval($parametros[1]) + 1;
           $linha = str_replace($linha, $linha, $parametros[0].":".$vitorias.PHP_EOL);
           $aux = 1;
         }
